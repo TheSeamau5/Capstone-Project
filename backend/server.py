@@ -1,15 +1,14 @@
 from flask import Flask
 
 from chinese import extract_pinyin
-from transcribe import file_name, send_google_speech_recognize_request
+from transcribe import recognize
 
 application = Flask(__name__)
 
 @application.route('/')
 def main_route():
-    response = send_google_speech_recognize_request(file_name)
-    result = response['results'][0]['alternatives'][0]['transcript']
-    return ' '.join(extract_pinyin(result))
+    result = recognize(pinyin=True)
+    return result
 
 
 if __name__ == '__main__':
