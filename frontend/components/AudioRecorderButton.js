@@ -21,7 +21,10 @@ class AudioRecorderButton extends Component {
   render() {
     return (
       <div>
-        <AudioRecorder record={this.state.isRecording}/>
+        <AudioRecorder
+            record={this.state.isRecording}
+            onRecord={(blob) => (!!this.props.onRecord) ? this.props.onRecord(blob) : null}
+        />
         <button onClick={() => this.record()}>
           {!this.state.isRecording ? 'Start' : 'Stop'}
         </button>
