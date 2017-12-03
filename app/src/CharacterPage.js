@@ -5,21 +5,38 @@ import MicIcon from 'material-ui-icons/Mic';
 
 import './CharacterPage.css';
 
+
+// props:
+//  - character : string (string of chinese text, preferably single character)
+//  - onRecognize : bool -> ()
+const defaultState = {
+  isRecognized: null,
+  isRecording: false
+};
+
+
 class CharacterPage extends Component {
 
   constructor(props) {
     super(props);
 
-    this.state = {
-      isRecognized: null,
-      isRecording: false
-    };
+    this.state = defaultState;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState(defaultState);
   }
 
   recognize(character) {
-    return this.setState({
-      isRecognized: wordPinyinEquivalent(this.props.character, character)
+    const isRecognized = wordPinyinEquivalent(this.props.character, character);
+
+    this.setState({
+      isRecognized: isRecognized
     });
+
+    if (!!this.props.onRecognize) {
+      this.props.onRecognize(isRecognized);
+    }
   }
 
   startRecording() {
