@@ -28,5 +28,33 @@ export function wordPinyinEquivalent(word1, word2) {
         (char1, index) => charactersPinyinEquivalent(char1, charlist2[index])
     );
   }
+}
 
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const SpeechGrammarList = window.SpeechGrammarList || window.webkitSpeechGrammarList;
+const SpeechRecognitionEvent = window.SpeechRecognitionEvent || window.webkitSpeechRecognitionEvent;
+
+
+// Promise to transcribe from voice
+export function transcribeVoice(language='zh-cn') {
+  const recognition = new SpeechRecognition();
+  const speechRecognitionList = new SpeechGrammarList();
+
+  recognition.lang = language;
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+
+  return new Promise((resolve, reject) => {
+    recognition.onresult = (event) => {
+      const last = event.results.length - 1;
+      const word = event.results[last][0].transcript;
+      resolve(word);
+    };
+
+    recognition.onspeechend = () => {
+      recognition.stop();
+    };
+
+    recognition.start();
+  });
 }
