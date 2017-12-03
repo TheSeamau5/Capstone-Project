@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import CharacterPage from './CharacterPage';
-
+import './App.css';
 class App extends Component {
 
   render() {
     return (
-      <CharacterPage character='为什么'/>
+      <div className='App'>
+        <CharacterPage character='为什么'/>
+      </div>
+
     );
 
   }
