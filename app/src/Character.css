@@ -1,0 +1,10 @@
+.characterContainer {
+  height: 100%;
+  width: 100%;
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 48pt;
+}

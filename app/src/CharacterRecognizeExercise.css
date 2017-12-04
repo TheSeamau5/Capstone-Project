@@ -1,0 +1,26 @@
+.CharacterRecognizeExercise {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.metricsContainer {
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: calc(100% - 32px);
+}
+
+.actionsArea {
+  height: 150px;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.nextButton {
+  height: 44px;
+}
