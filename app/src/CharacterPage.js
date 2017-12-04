@@ -54,10 +54,13 @@ class CharacterPage extends Component {
   onClick() {
     if (!this.state.isRecording) {
       this.startRecording();
+      
       return transcribeVoice().then(
         (word) => this.recognize(word)
       ).then(
           () => this.stopRecording()
+      ).catch(
+        (error) => this.stopRecording()
       );
     } else {
       this.stopRecording();

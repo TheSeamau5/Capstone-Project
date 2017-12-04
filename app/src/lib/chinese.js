@@ -55,6 +55,15 @@ export function transcribeVoice(language='zh-cn') {
       recognition.stop();
     };
 
+    recognition.onnomatch = (event) => {
+      reject('Sound not recognized');
+    };
+
+    recognition.onerror = (event) => {
+      reject(event.error);
+    };
+
+
     recognition.start();
   });
 }
