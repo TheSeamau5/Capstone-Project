@@ -2,7 +2,14 @@ import React, { Component } from 'react';
 import CharacterRecognizeExercise from './CharacterRecognizeExercise';
 import CharacterRecognizePractice from './CharacterRecognizePractice';
 import SelectMode from './SelectMode';
+import Home from './Home';
 import './App.css';
+
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom';
 
 
 const lexicon = [
@@ -16,17 +23,19 @@ const lexicon = [
 ];
 
 
-
-
 class App extends Component {
 
   render() {
     return (
-      <div className='App'>
-        <SelectMode/>
-        {/* <CharacterRecognizePractice lexicon={lexicon}/>*/}
-      </div>
+      <Router>
+        <div>
+          <Route exact path="/" component={Home}/>
 
+          <Route path="/:topic" component={SelectMode}/>
+          <Route path="/:topic/practice" component={CharacterRecognizePractice}/>
+          <Route path="/:topic/exercise" component={CharacterRecognizeExercise}/>
+        </div>
+      </Router>
     );
 
   }
