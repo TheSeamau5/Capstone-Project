@@ -82,6 +82,7 @@ class CharacterRecognizeExercise extends Component {
   gotoNext() {
     if (this.state.currentIndex + 1 < this.props.lexicon.length) {
       return this.setState({
+        currentTriesRemaining: 2,
         currentIndex: this.state.currentIndex + 1,
         isRecording: false,
         isRecognized: null

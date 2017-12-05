@@ -15,6 +15,8 @@ class CharacterRecognizePractice extends Component {
   constructor(props) {
     super(props);
 
+
+
     this.state = {
       // Current character index of lexicon
       currentIndex: 0,

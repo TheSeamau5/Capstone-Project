@@ -11,6 +11,8 @@ import {
   Link
 } from 'react-router-dom';
 
+import { topics } from './lib/chinese';
+
 
 const lexicon = [
   '我',
@@ -25,15 +27,30 @@ const lexicon = [
 
 class App extends Component {
 
+  getLexicon(topic) {
+    console.log(topic);
+    return topics.find((t) => t.name === topic).lexicon;
+  }
+
   render() {
     return (
       <Router>
-        <div>
+        <div className='App'>
           <Route exact path="/" component={Home}/>
 
-          <Route path="/:topic" component={SelectMode}/>
-          <Route path="/:topic/practice" component={CharacterRecognizePractice}/>
-          <Route path="/:topic/exercise" component={CharacterRecognizeExercise}/>
+          <Route exact path="/:topic" component={SelectMode}/>
+          <Route
+              path="/:topic/practice"
+              render={
+                (props) => <CharacterRecognizePractice {...props} lexicon={this.getLexicon(props.match.params.topic)} />
+              }
+          />
+          <Route
+              path="/:topic/exercise"
+              render={
+                (props) => <CharacterRecognizeExercise {...props} lexicon={this.getLexicon(props.match.params.topic)} />
+              }
+          />
         </div>
       </Router>
     );
