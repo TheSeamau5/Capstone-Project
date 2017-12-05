@@ -7,34 +7,16 @@ import Character from './Character';
 import Button from 'material-ui/Button';
 import MicIcon from 'material-ui-icons/Mic';
 
-import './CharacterRecognizeExercise.css';
 
-// props:
-//  - lexicon: [string] (list of characters that form lexicon)
-//  - maxTries : int (default: 3)
-//  - onExerciseEnd: (score -> ())
-class CharacterRecognizeExercise extends Component {
-
+// Component used for practice runs.
+// Does not record scores, just loops through characters
+class CharacterRecognizePractice extends Component {
   constructor(props) {
     super(props);
 
-
-    // The game progresses by first showing a character with a
-    // microphone button. When the microphone button is pressed,
-    // the microphone is recording a sound. When it is done, it either
-    // succeeds or fails. The player can try up to 3 times, after which
-    // The player is asked to go to the next page and is offered a
-    // button to hear what the character sounds like.
-    // When game reaches end, player is shown score.
     this.state = {
       // Current character index of lexicon
       currentIndex: 0,
-
-      // Number of tries remaining
-      currentTriesRemaining: 2,
-
-      // Current player score
-      score: 0,
 
       // Microphone is recording
       isRecording: false,
@@ -55,15 +37,8 @@ class CharacterRecognizeExercise extends Component {
   // Setter methods //
   ////////////////////
   recognize(character) {
-    const isRecognized = wordPinyinEquivalent(this.getCurrentCharacter(), character);
-    const currentTriesRemaining = !!isRecognized ? 2 : this.state.currentTriesRemaining - 1;
-
-    const score = !!isRecognized ? this.state.score + 4 + (3 * this.state.currentTriesRemaining) : this.state.score;
-
     return this.setState({
-      isRecognized,
-      currentTriesRemaining,
-      score
+      isRecognized: wordPinyinEquivalent(this.getCurrentCharacter(), character)
     });
   }
 
@@ -80,15 +55,11 @@ class CharacterRecognizeExercise extends Component {
   }
 
   gotoNext() {
-    if (this.state.currentIndex + 1 < this.props.lexicon.length) {
-      return this.setState({
-        currentIndex: this.state.currentIndex + 1,
-        isRecording: false,
-        isRecognized: null
-      });
-    } else if (!!this.props.onExerciseEnd){
-      return this.props.onExerciseEnd(this.state.score);
-    }
+    return this.setState({
+      currentIndex: (this.state.currentIndex + 1) % this.props.lexicon.length,
+      isRecording: false,
+      isRecognized: null
+    });
   }
 
   ///////////////////////////
@@ -117,16 +88,6 @@ class CharacterRecognizeExercise extends Component {
   ////////////////////
   // Render methods //
   ////////////////////
-  renderMetrics() {
-    // Method to render the current metrics for the game
-    return (
-      <div className='metricsContainer'>
-        <p>Score: {this.state.score}</p>
-        <p>Attempts Remaining: {this.state.currentTriesRemaining}</p>
-      </div>
-    );
-  }
-
   renderCharacter() {
     // Method to render the current character
     const character = this.getCurrentCharacter();
@@ -172,24 +133,15 @@ class CharacterRecognizeExercise extends Component {
 
   renderActions() {
     // Method to render action buttons
-    const content = (() => {
-      // If character is recognized or if attempts are over, render next button
-      // Else, render microphone.
-      if (!!this.state.isRecognized || this.state.currentTriesRemaining < 0) {
-        return this.renderGotoNextButton();
-      } else {
-        return this.renderRecordButton();
-      }
-    })();
-
-
     return (
       <div className='actionsArea'>
-        {content}
+        <div style={{flex: 1}}></div>
+        {this.renderRecordButton()}
+        <div style={{flex: 1}}></div>
+        {this.renderGotoNextButton()}
+        <div style={{flex: 1}}></div>
       </div>
     );
-
-
   }
 
 
@@ -198,8 +150,7 @@ class CharacterRecognizeExercise extends Component {
     // Center area has the character
     // Bottom area has the action buttons
     return (
-      <div className='CharacterRecognizeExercise'>
-        {this.renderMetrics()}
+      <div className='CharacterRecognizePractice'>
         {this.renderCharacter()}
         {this.renderActions()}
       </div>
@@ -207,4 +158,4 @@ class CharacterRecognizeExercise extends Component {
   }
 }
 
-export default CharacterRecognizeExercise;
+export default CharacterRecognizePractice;

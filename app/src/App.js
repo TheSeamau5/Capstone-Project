@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // import CharacterPage from './CharacterPage';
 import CharacterRecognizeExercise from './CharacterRecognizeExercise';
+import CharacterRecognizePractice from './CharacterRecognizePractice';
 
 import './App.css';
 
@@ -23,7 +24,7 @@ class App extends Component {
   render() {
     return (
       <div className='App'>
-        <CharacterRecognizeExercise lexicon={lexicon}/>
+        <CharacterRecognizePractice lexicon={lexicon}/>
       </div>
 
     );
