@@ -42,11 +42,11 @@ function getVoice() {
   const voices = SpeechSynthesis.getVoices();
 
   const betterVoice = voices.find(
-    (voice) => voice.lang == 'zh-CN' && !voice.default
+    (voice) => voice.lang === 'zh-CN' && !voice.default
   );
 
   const fallbackVoice = voices.find(
-    (voice) => voice.lang == 'zh-CN' && voice.default
+    (voice) => voice.lang === 'zh-CN' && voice.default
   );
 
   return (!!betterVoice) ? betterVoice : fallbackVoice;
