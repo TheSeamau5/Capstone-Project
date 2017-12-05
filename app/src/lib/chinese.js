@@ -30,9 +30,38 @@ export function wordPinyinEquivalent(word1, word2) {
   }
 }
 
+// Web Speech API
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const SpeechGrammarList = window.SpeechGrammarList || window.webkitSpeechGrammarList;
 const SpeechRecognitionEvent = window.SpeechRecognitionEvent || window.webkitSpeechRecognitionEvent;
+const SpeechSynthesis = window.speechSynthesis;
+
+
+// Function to get chinese voice
+function getVoice() {
+  const voices = SpeechSynthesis.getVoices();
+
+  const betterVoice = voices.find(
+    (voice) => voice.lang == 'zh-CN' && !voice.default
+  );
+
+  const fallbackVoice = voices.find(
+    (voice) => voice.lang == 'zh-CN' && voice.default
+  );
+
+  return (!!betterVoice) ? betterVoice : fallbackVoice;
+}
+
+
+// Function to say words
+export function say(word) {
+  const voice = getVoice();
+  const utterance = new SpeechSynthesisUtterance(word);
+  utterance.voice = voice;
+  utterance.rate = 0.7;
+  return SpeechSynthesis.speak(utterance)
+}
+
 
 
 // Promise to transcribe from voice

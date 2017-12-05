@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 
-import { wordPinyinEquivalent, transcribeVoice } from './lib/chinese';
+import { wordPinyinEquivalent, transcribeVoice, say } from './lib/chinese';
 
 import Character from './Character';
 
 import Button from 'material-ui/Button';
 import MicIcon from 'material-ui-icons/Mic';
+import VolumeUpIcon from 'material-ui-icons/VolumeUp';
 
 
 // Component used for practice runs.
@@ -85,6 +86,12 @@ class CharacterRecognizePractice extends Component {
     }
   }
 
+  onSpeak() {
+    const character = this.getCurrentCharacter();
+
+    return say(character);
+  }
+
   ////////////////////
   // Render methods //
   ////////////////////
@@ -131,10 +138,25 @@ class CharacterRecognizePractice extends Component {
     );
   }
 
+  renderSpeakButton() {
+    // Method to render speak button
+    return (
+      <Button
+        fab
+        color="primary"
+        onClick={() => this.onSpeak()}
+      >
+        <VolumeUpIcon/>
+      </Button>
+    );
+  }
+
   renderActions() {
     // Method to render action buttons
     return (
       <div className='actionsArea'>
+        <div style={{flex: 1}}></div>
+        {this.renderSpeakButton()}
         <div style={{flex: 1}}></div>
         {this.renderRecordButton()}
         <div style={{flex: 1}}></div>
